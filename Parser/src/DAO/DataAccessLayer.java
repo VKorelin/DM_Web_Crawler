@@ -2,15 +2,18 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DAO {
+public class DataAccessLayer {
 
-    public DAO() {
+    public DataAccessLayer() {
+
     }
 
-    public void addDataToTDocument(List<Document> documents) {
+    public void addDocumentsToDB(List<Document> documents) {
 
         PreparedStatement ps = null;
         Connection connection = null;
@@ -19,7 +22,7 @@ public class DAO {
 
             connection = new MSSQLConnection().getMSSQLConnection();
             connection.setAutoCommit(false);
-
+            //Add fields Url, timedouwnloding pages 
             for (int i = 0; i < documents.size(); i++) {
                 ps = connection.prepareStatement("INSERT INTO Document(DocumentTitle, DocumentAuthor, DocumentExtension, DocumentText, DocumentDate) "
                         + "VALUES( ?, ?, ?, ?, ? );");
@@ -29,13 +32,14 @@ public class DAO {
                 ps.setString(4, documents.get(i).getText());
                 ps.setString(5, documents.get(i).getDate());
                 ps.addBatch();
-                int[] updateCounts = ps.executeBatch();
+                //int[] updateCounts = ps.executeBatch();
             }
+            int[] updateCounts = ps.executeBatch();
 
             connection.commit();
             connection.close();
-                       
-            System.out.println("Successful: Operation the 'addDataToTDocument' has completed.");
+
+            System.out.println("Successful: Operation the 'addDocumentsToDB' has completed.");
         }
         catch (SQLException ignore) {
             ignore.printStackTrace();
@@ -56,13 +60,13 @@ public class DAO {
                 }
             }
             catch (SQLException ignore) {
-                System.out.println("PraparedStatemen hasn't completed");
+                System.out.println("PraparedStatement hasn't completed");
                 ignore.printStackTrace();
             }
         }
     }
 
-    public void addDataToTTerm(List<Term> terms) {
+    public void addTermsToDB(List<Term> terms) {
 
         PreparedStatement ps = null;
         Connection connection = null;
@@ -83,8 +87,8 @@ public class DAO {
 
             connection.commit();
             connection.close();
-            
-            System.out.println("Successful: Operation the 'addDataToTTerm' has completed.");
+
+            System.out.println("Successful: Operation the 'addTermsToDB' has completed.");
         }
         catch (SQLException ignore) {
             ignore.printStackTrace();
@@ -105,13 +109,13 @@ public class DAO {
                 }
             }
             catch (SQLException ignore) {
-                System.out.println("PraparedStatemen hasn't completed");
+                System.out.println("PraparedStatement hasn't completed");
                 ignore.printStackTrace();
             }
         }
     }
 
-    public void addTermToTTerm(Term term) {
+    public void addCurrentTermToDB(Term term) {
 
         PreparedStatement ps = null;
         Connection connection = null;
@@ -127,7 +131,7 @@ public class DAO {
             ps.executeUpdate();
             connection.close();
 
-            System.out.println("Successful: Operation the 'addTermToTTerm' has completed.");
+            System.out.println("Successful: Operation the 'addCurrentTermToDB' has completed.");
         }
         catch (SQLException ignore) {
             ignore.printStackTrace();
@@ -154,7 +158,7 @@ public class DAO {
         }
     }
 
-    public void addDocumentToTDocument(Document document) {
+    public void addCurrentDocumentToDB(Document document) {
 
         PreparedStatement ps = null;
         Connection connection = null;
@@ -174,7 +178,7 @@ public class DAO {
             ps.executeUpdate();
             connection.close();
 
-            System.out.println("Successful: Operation the 'addDocumentToTDocument' has completed.");
+            System.out.println("Successful: Operation the 'addCurrentDocumentToDB' has completed.");
 
         }
         catch (SQLException ignore) {
@@ -196,10 +200,59 @@ public class DAO {
                 }
             }
             catch (SQLException ignore) {
-                System.out.println("PraparedStatemen hasn't completed");
+                System.out.println("PraparedStatement hasn't completed");
                 ignore.printStackTrace();
             }
         }
+    }
+
+    public int getTermId(String Stem) {
+
+        Statement st = null;
+        ResultSet rs = null;
+        Connection connection = null;
+
+        int termId = -1;
+
+        try {
+
+            connection = new MSSQLConnection().getMSSQLConnection();
+            st = connection.createStatement();
+            connection.setAutoCommit(false);
+            rs = st.executeQuery("SELECT TermId FROM Term WHERE TermStem = '" + Stem + "';");
+            if (!rs.next()) {
+                System.out.println("Id of Term isn't found");
+            } else {
+                termId = rs.getInt("Termid");
+            }
+            connection.close();
+        }
+        catch (SQLException ignore) {
+            ignore.printStackTrace();
+        }
+        finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+            catch (SQLException ignore) {
+                System.out.println("Connection hasn't closed");
+                ignore.printStackTrace();
+            }
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            }
+            catch (SQLException ignore) {
+                System.out.println("Statement hasn't completed");
+                ignore.printStackTrace();
+            }
+        }
+
+        return termId;
+
     }
 
 }

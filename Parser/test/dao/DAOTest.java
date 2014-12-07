@@ -5,7 +5,7 @@
  */
 package dao;
 
-import DAO.DAO;
+import DAO.DataAccessLayer;
 import DAO.Document;
 import DAO.Term;
 import java.io.IOException;
@@ -48,24 +48,24 @@ public class DAOTest {
      * Test of addDataToTDocument method, of class DAO.
      */
     @Test
-    public void testAddDataToTDocument() throws IOException {
-        System.out.println("addDataToTDocument");
+    public void testAddDocumentsToDB() throws IOException {
+        System.out.println("addDocumentsToDB");
         ParserManager pm = new ParserManager();
         List<Document> documents = null;
         documents = pm.MultipleParse(".//resources");
-        DAO instance = new DAO();
-        instance.addDataToTDocument(documents);
+        DataAccessLayer instance = new DataAccessLayer();
+        instance.addDocumentsToDB(documents);
     }
 
     /**
      * Test of addDataToTTerm method, of class DAO.
      */
     @Test
-    public void testAddDataToTTerm() {
-        System.out.println("addDataToTTerm");
+    public void testAddCurrentTermToDB() {
+        System.out.println("addCurrentTermToDB");
         List<Term> terms = null;
-        DAO instance = new DAO();
-        instance.addDataToTTerm(terms);
+        DataAccessLayer instance = new DataAccessLayer();
+        instance.addTermsToDB(terms);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -74,7 +74,7 @@ public class DAOTest {
      * Test of addTermToTTerm method, of class DAO.
      */
     @Test
-    public void testAddTermToTTerm() throws MalformedURLException {
+    public void testAddCurrentDocumentToDB() throws MalformedURLException {
         /*System.out.println("addTermToTTerm");
         ParserManager pm = new ParserManager();
         DAO instance = new DAO();

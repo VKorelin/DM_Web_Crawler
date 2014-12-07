@@ -2,9 +2,7 @@ package DAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import parser.HtmlParser;
-import parser.IParser;
 
 public class Document {
 
@@ -23,8 +21,6 @@ public class Document {
     public Document() {
 
     }
-    
-    
 
     public Document(String title, String author, String extension, String text, String date) {
         this.title = title;
@@ -39,7 +35,7 @@ public class Document {
         this.invertedIdx = invertedIdx;
         this.extension = ext;
         this.links = parser.linksList;
-        if(links != null){
+        if (links != null) {
             urlAddress = ext;
             this.extension = "html";
         }
@@ -47,8 +43,6 @@ public class Document {
         this.numberOfLinksExtractionErrors = parser.numberOfLinksExtractionErrors;
         this.isFailedToDownload = parser.isFailedToDownload;
     }
-    
-    
 
     public Document(Document document) {
         this.title = document.title;

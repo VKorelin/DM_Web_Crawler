@@ -17,7 +17,7 @@ public class MSSQLConnection {
 
     public Connection connection;
 
-    public static final String URL = "jdbc:sqlserver://localhost\\SQLEXPRESS; databaseName=Reuters;";
+    public static final String URL = "jdbc:sqlserver://localhost:1434;instanceName=BLOHINANDREY; databaseName=Reuters;";
     public static final String USER = "sa";
     public static final String PASSWORD = "55555";
     public static final String DRIVER_CLASS = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
