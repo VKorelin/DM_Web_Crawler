@@ -1,7 +1,6 @@
 package Crawler;
 
 import DAO.Document;
-import com.sun.istack.internal.FinalArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +19,7 @@ public class CrawlerInstance {
     String domainName;
 
     static int goodLinksCount = 0;
-    static int totalCountOfJSLinks=  0;
+    static int totalCountOfJSLinks = 0;
     static int totalNumberOfFailedToDownloadLinks = 0;
     static int numberOfExceptions = 0;
 
@@ -37,7 +36,7 @@ public class CrawlerInstance {
     static HashSet<String> visitedLinks;
     static HashSet<String> queue;
     static ArrayList<String> externalLinks;
-    
+
     ArrayList<Document> documents;
 
     //Indicates true if crawler should parse text.
@@ -51,7 +50,7 @@ public class CrawlerInstance {
         badURLs = new ArrayList<>();
         failedToDownloadUrls = new ArrayList<>();
         this.domainName = domain;
-        this.documents = new FinalArrayList<>();
+        this.documents = new ArrayList<>();
     }
 
     public void Start(boolean parseText) throws IOException {
@@ -62,16 +61,16 @@ public class CrawlerInstance {
         while (!queue.isEmpty()) {
             processNextPage(queue.iterator().next());
         }
-        
-        for(Document d: documents){
-            if(d.isFailedToDownload){
+
+        for (Document d : documents) {
+            if (d.isFailedToDownload) {
                 totalNumberOfFailedToDownloadLinks++;
-            }else{
+            } else {
                 goodLinksCount++;
             }
             totalCountOfJSLinks += d.numberOfJSLinks;
         }
-        
+
         System.out.println("\nNumber of correct links: " + goodLinksCount);
 
         System.out.println("\nNumber of word documents: " + numberOfWordDoc);
@@ -123,7 +122,7 @@ public class CrawlerInstance {
 
             Document d = new ParserManager().Parse(URL, parseText);
             documents.add(d);
-            
+
             System.out.println(documents.size() + " " + URL);
 
             for (String link : d.links) {
@@ -131,7 +130,8 @@ public class CrawlerInstance {
                     queue.add(link);
                 }
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             numberOfExceptions++;
             badURLs.add(URL);
         }
