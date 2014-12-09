@@ -28,24 +28,8 @@ public class DAOTest {
     public DAOTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
-     * Test of addDataToTDocument method, of class DAO.
+     * Test of testAddDocumentsToDB method, of class DAO.
      */
     @Test
     public void testAddDocumentsToDB() throws IOException {
@@ -58,7 +42,7 @@ public class DAOTest {
     }
 
     /**
-     * Test of addDataToTTerm method, of class DAO.
+     * Test of testAddCurrentTermToDB method, of class DAO.
      */
     @Test
     public void testAddCurrentTermToDB() {
@@ -81,6 +65,32 @@ public class DAOTest {
         Term term = new Term("comi", 3);
         Document document = pm.Parse(".\\resources\\pdf\\Hello.pdf");
         instance.addTermToTTerm(term);*/
+    }
+
+    /**
+     * Test of addTermsToDB method, of class DataAccessLayer.
+     */
+    @Test
+    public void testAddTermsToDB() {
+        System.out.println("addTermsToDB");
+        List<Term> terms = null;
+        DataAccessLayer instance = new DataAccessLayer();
+        instance.addTermsToDB(terms);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getTermId method, of class DataAccessLayer.
+     */
+    @Test
+    public void testGetTermId() {
+        System.out.println("getTermId");
+        String Stem = "stop";
+        DataAccessLayer instance = new DataAccessLayer();
+        int expResult = 7;
+        int result = instance.getTermId(Stem);
+        assertEquals(expResult, result);
     }
 
     /**
